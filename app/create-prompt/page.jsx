@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Form from "@ui/Form";
@@ -36,7 +36,10 @@ function CreatePrompt() {
     }
   };
 
-  if (!session?.user?.id) return router.push("/");
+  useEffect(() => {
+    if (!session?.user?.id) return router.push("/"); //Doesn't want until render is completed
+  }, [session]);
+
   return (
     <Form
       type="Create"

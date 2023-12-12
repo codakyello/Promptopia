@@ -34,7 +34,7 @@ function PromptCard({
         <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
           <Image
             onClick={handleClick}
-            src={post.creator.image}
+            src={post.creator?.image}
             alt="user_image"
             width={40}
             height={40}
