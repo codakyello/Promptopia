@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Profile from "@ui/Profile";
 
@@ -27,7 +27,7 @@ function UserProfile({ searchParams: { username }, params }) {
     }
   }
 
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +44,7 @@ function UserProfile({ searchParams: { username }, params }) {
 
         const data = await res.json();
         setPosts(data);
+        console.log("Post fetched");
       } catch (e) {
         console.log(e.message);
       } finally {
@@ -51,8 +52,9 @@ function UserProfile({ searchParams: { username }, params }) {
       }
     }
 
-    if (session?.user.id) fetchPosts();
+    fetchPosts();
   }, []);
+
   return (
     <Profile
       name={username}

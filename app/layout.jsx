@@ -1,12 +1,27 @@
+"use client";
 import "@styles/globals.css";
 import Nav from "@ui/Nav";
 import Provider from "@ui/Provider";
+import { useEffect } from "react";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-export const metadata = {
-  title: "Promptopia",
-  description: "Discover & share AI Prompts",
-};
+// export const metadata = {
+//   title: "Promptopia",
+//   description: "Discover & share AI Prompts",
+// };
+
 function RootLayout({ children }) {
+  const router = useRouter();
+  useEffect(() => {
+    async function useSession() {
+      const session = await getSession();
+
+      if (!session?.user?.id) return router.push("/");
+    }
+
+    useSession();
+  }, []);
   return (
     <html lang="en">
       <body>

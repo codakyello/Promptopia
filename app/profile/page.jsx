@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Profile from "@ui/Profile";
 
@@ -29,14 +29,13 @@ function MyProfile() {
     }
   }
 
-  const { data: session } = useSession();
-
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function fetchPosts() {
       try {
         setIsLoading(true);
+        const session = await getSession();
         const res = await fetch(`/api/users/${session?.user.id}/posts`);
 
         if (!res.ok) {
@@ -52,7 +51,7 @@ function MyProfile() {
       }
     }
 
-    if (session?.user.id) fetchPosts();
+    fetchPosts();
   }, []);
   return (
     <Profile

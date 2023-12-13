@@ -1,12 +1,14 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Form from "@ui/Form";
+import { useSession } from "next-auth/react";
 
 function CreatePrompt() {
   const [isSubmitting, setSubmitting] = useState(false);
+
   const [post, setPost] = useState({ prompt: "", tag: "" });
+
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -35,10 +37,6 @@ function CreatePrompt() {
       setSubmitting(false);
     }
   };
-
-  useEffect(() => {
-    if (!session?.user?.id) return router.push("/"); //Doesn't want until render is completed
-  }, [session]);
 
   return (
     <Form
