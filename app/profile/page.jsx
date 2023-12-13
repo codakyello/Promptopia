@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Profile from "@ui/Profile";
 
@@ -31,11 +32,14 @@ function MyProfile() {
 
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  // const { data: session } = useSession();
   useEffect(() => {
     async function fetchPosts() {
       try {
         setIsLoading(true);
+
         const session = await getSession();
+
         const res = await fetch(`/api/users/${session?.user.id}/posts`);
 
         if (!res.ok) {
@@ -51,7 +55,10 @@ function MyProfile() {
       }
     }
 
-    fetchPosts();
+    (async function session() {
+      const session = await getSession();
+      if (session?.user?.id) fetchPosts();
+    })();
   }, []);
   return (
     <Profile
